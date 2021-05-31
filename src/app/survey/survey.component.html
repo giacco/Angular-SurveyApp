@@ -1,0 +1,73 @@
+<div *ngIf="questionToAsk.length > 0 && showQuiz">
+<mat-card  [@slideInRight]="animState" (@slideInRight.done)="animDone()" > 
+    <mat-card-header>
+     <mat-card-title >Question n {{counter}} </mat-card-title> -
+    </mat-card-header>
+    <div mat-card-image></div>
+    <mat-card-content style="text-align: center;">
+        <label class="mat-headline"> {{ questionToAsk[0].question }}</label>
+        <hr><br>
+        <mat-radio-group aria-labelledby="example-radio-group-label"
+            class="aswers-radio-group mat-title"
+            [(ngModel)]="userAnswer">
+        <mat-radio-button *ngFor="let answer of questionToAsk[0].answers" [value]="answer">{{ answer }} </mat-radio-button>
+        </mat-radio-group>
+        <hr><br>
+        <div >Answer : <a> {{ userAnswer }} </a> </div>        
+    </mat-card-content>
+    <mat-card-actions style="text-align: center;">
+      <button mat-fab color="primary" (click)="setAnswer(userAnswer!)"><mat-icon>send</mat-icon></button>
+    </mat-card-actions>
+  </mat-card>
+  <br>
+  <mat-card>
+    <mat-card-content>
+      <h2>Progress {{counter -1}} of {{questionAll.length}}</h2>
+      <section>
+        <mat-progress-bar
+            [mode]="determinate"
+            [value]="(counter * 100) / questionAll.length">
+        </mat-progress-bar>
+      </section>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<div *ngIf="resultTable.length > 0">
+  <table  mat-table [dataSource]="resultTable" class="mat-elevation-z8">
+
+    <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+  
+    <!-- Position Column -->
+    <ng-container matColumnDef="position">
+      <th mat-header-cell *matHeaderCellDef> No. </th>
+      <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+    </ng-container>
+  
+    <!-- Question Column -->
+    <ng-container matColumnDef="question">
+      <th mat-header-cell *matHeaderCellDef> Question </th>
+      <td mat-cell *matCellDef="let element"> {{element.question}} </td>
+    </ng-container>
+  
+    <!-- correct Column -->
+    <ng-container matColumnDef="correct">
+      <th mat-header-cell *matHeaderCellDef> Correct </th>
+      <td mat-cell *matCellDef="let element"> {{element.correct}} </td>
+    </ng-container>
+  
+    <!-- Answer Column -->
+    <ng-container matColumnDef="answer">
+      <th mat-header-cell *matHeaderCellDef> Answer </th>
+      <td mat-cell *matCellDef="let element"> {{element.answer}} </td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns ;"></tr>
+   </table>
+   <p>Final score {{ correctNumber }} / {{ resultTable.length }}
+   <button mat-raised-button color="primary" routerLink="/welcome">restart</button>
+   <button mat-raised-button color="warn" routerLink="/goodbye">quit</button>
+  </p>
+  </div>

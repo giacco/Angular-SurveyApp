@@ -1,0 +1,27 @@
+.aswers-radio-group {
+  display: flex;
+  flex-direction: column;
+  margin-left: 20%;
+}
+.mat-card-title {
+    font-size: 30px;
+}
+.questionAnswers {
+    font-size: 35px;
+ }
+
+ .mat-card-header{
+    background-color:#3700B3 !important;
+    padding:5px !important;
+  }
+  
+   .mat-card{
+    padding:0 !important;
+  }
+  
+  .mat-card-content{
+    padding:5px !important;
+  }
+  table {
+    width: 100%;
+  }
