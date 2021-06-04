@@ -3,11 +3,12 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --host 0.0.0.0",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "start-backend": "node ./server/index.js"
+    "build-server": "./node_modules/.bin/tsc --project tsconfig.server.json",
+    "start-server": "node ./dist/server/index.js"
   },
   "private": true,
   "dependencies": {
@@ -21,29 +22,43 @@
     "@angular/platform-browser": "~12.0.1",
     "@angular/platform-browser-dynamic": "~12.0.1",
     "@angular/router": "~12.0.1",
+    "@types/cookie-session": "^2.0.42",
+    "@types/joi": "^17.2.3",
+    "@types/morgan": "^1.9.2",
+    "@types/winston": "^2.4.4",
     "angular-animations": "^0.11.0",
     "classlist.js": "^1.1.20150312",
+    "cookie-session": "^1.4.0",
     "core-js": "^3.12.0",
     "cors": "^2.8.5",
+    "express-session": "^1.17.2",
+    "express-validator": "^6.11.1",
     "intl": "^1.2.5",
     "json-server": "^0.16.3",
+    "morgan": "^1.10.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.1.0",
     "web-animations-js": "^2.3.2",
+    "winston": "^3.3.3",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.1102.13",
     "@angular/cli": "~12.0.1",
     "@angular/compiler-cli": "~12.0.1",
+    "@types/express": "^4.17.12",
+    "@types/express-session": "^1.17.0",
+    "@types/helmet": "^4.0.0",
     "@types/jasmine": "~3.6.0",
     "@types/node": "^12.11.1",
+    "helmet": "^4.6.0",
     "jasmine-core": "~3.7.0",
     "karma": "~6.3.0",
     "karma-chrome-launcher": "~3.1.0",
     "karma-coverage": "~2.0.3",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
+    "morgan-body": "^2.6.5",
     "typescript": "~4.2.3"
   }
 }

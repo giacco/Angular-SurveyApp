@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http'
-import { QuestionInterface, userAnswer, userAnswerResponse } from './question'
-import { Observable } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
-import { of } from 'rxjs/internal/observable/of';
+import { QuestionInterface, userAnswer } from './question'
+
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Observable } from 'rxjs/internal/Observable';
+import { of } from 'rxjs/internal/observable/of';
+import { catchError } from 'rxjs/operators';
 
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type':  'application/json',
-    Authorization: 'my-auth-token'
   })
 };
 
@@ -18,22 +18,22 @@ const httpOptions = {
 })
 export class SurveyService {
 
-  // private REST_API_SERVER: string = "http://192.168.2.36:3000/survey";
-  private REST_API_SERVER: string = "http://192.168.2.47:3000";
+  // private REST_API_SERVER: string = "http://192.168.2.53:3000";
+  private REST_API_SERVER: string = "http://127.0.0.1:3000/";
 
   constructor(private httpClient: HttpClient, private _snackBar: MatSnackBar) { }
 
   public sendGetQuestionRequest(): Observable<QuestionInterface[]> {
-    return this.httpClient.get<QuestionInterface[]>(this.REST_API_SERVER)
+    return this.httpClient.get<QuestionInterface[]>(this.REST_API_SERVER, httpOptions)
       .pipe(
         catchError(this.handleError<QuestionInterface[]>('sendGetQuestionRequest', []))
       );
   }
-  public sendPostAnswersRequest(answers: userAnswer[]) : Observable<userAnswerResponse> {
-    const body = JSON.stringify(answers);
-    return this.httpClient.post<userAnswerResponse>(this.REST_API_SERVER, body, httpOptions)
+  public sendPostAnswersRequest(answers_id: number[]) : Observable<string[]> {
+    const body = JSON.stringify(answers_id);
+    return this.httpClient.post<string[]>(this.REST_API_SERVER, body, httpOptions)
     .pipe(
-      catchError(this.handleError<userAnswerResponse>('sendPostAnswersRequest'))
+      catchError(this.handleError<string[]>('sendPostAnswersRequest'))
     );
   }
   /**

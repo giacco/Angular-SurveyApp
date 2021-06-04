@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SurveyService } from '../survey.service';
-import { QuestionInterface, ResultTableInterface, userAnswer, userAnswerResponse } from '../question';
+import { QuestionInterface, ResultTableInterface, userAnswer } from '../question';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { slideInRightAnimation} from 'angular-animations';
 
@@ -20,6 +20,7 @@ export class SurveyComponent implements OnInit {
   counter: number = 1 ;
 
   userAnswerQuestion: userAnswer[] = [];
+
   userAnswer: string | undefined ;
   currentQuestion!: QuestionInterface
 
@@ -68,13 +69,19 @@ export class SurveyComponent implements OnInit {
    } else {
     this.openSnackBar("Select one before proced","close")
    }
+
   }
 
   postQuestion():void {
-    console.log((this.userAnswerQuestion))
-    this.surveyService.sendPostAnswersRequest(this.userAnswerQuestion)
-    .subscribe((data : userAnswerResponse) => {
-      //console.log(data);
+    // console.log((this.userAnswerQuestion))
+    let id :number[] = []
+    console.log('id order',id)
+    for (let elem of this.userAnswerQuestion){
+      id.push(elem.id)
+    }
+    this.surveyService.sendPostAnswersRequest(id)
+    .subscribe((data : string[]) => {
+      console.log(data);
       this.populateFinalTable(data)
     }) 
   }
@@ -83,7 +90,7 @@ export class SurveyComponent implements OnInit {
     this.animState = true;
   }
 
-  private populateFinalTable(data:userAnswerResponse) :void {
+  private populateFinalTable(data:string[]) :void {
 
     for(let i :number = 0; i < this.questionAll.length; i++ ) {
       
@@ -91,11 +98,13 @@ export class SurveyComponent implements OnInit {
         position: i+1, 
         question: this.questionAll[i].question, 
         answer:this.userAnswerQuestion[i].answer,
-        correct:data.correct[i] 
+        correct: data[i] 
       })
-
     }
-    this.correctNumber = data.correctNumber;
-    //console.log("final table",data)
+    // count correct answer number
+    for (let item of this.resultTable){
+      if (item.answer == item.correct)
+         this.correctNumber ++;
+    }
   }
 }

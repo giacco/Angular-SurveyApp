@@ -13,7 +13,3 @@ export interface userAnswer {
     id:number;
     answer: string;
 }
-export interface userAnswerResponse {
-    correctNumber:number;
-    correct: string[];
-}
